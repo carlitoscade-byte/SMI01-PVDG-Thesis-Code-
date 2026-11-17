@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "SMI01-PVDG-Thesis-Code"
+type: software
+authors:
+  - family-names: "Domínguez"
+    given-names: "Carlos A."
+version: 1.0.0
+date-released: 2026-11-17
+repository-code: "https://github.com/carlitoscade-byte/SMI01-PVDG-Thesis-Code-"
+license: MIT
+abstract: >
+  Código fuente desarrollado para la estimación geoespacial del potencial
+  fotovoltaico urbano y el procesamiento del recurso solar aplicado al
+  alimentador SMI-01 de la Administración Nacional de Electricidad (ANDE),
+  Asunción, Paraguay.
+keywords:
+  - photovoltaic distributed generation
+  - PVDG
+  - solar irradiance
+  - geospatial analysis
+  - distribution feeder
+  - SMI-01
+  - Paraguay
