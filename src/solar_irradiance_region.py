@@ -118,7 +118,11 @@ def fetch_open_meteo(lat, lon, start_date, end_date, tz):
         "longitude": lon,
         "start_date": start_date,
         "end_date": end_date,
-        "hourly": ["shortwave_radiation", "direct_radiation", "diffuse_radiation"],
+        "hourly": [
+    "shortwave_radiation",
+    "direct_normal_irradiance",
+    "diffuse_radiation"
+],
         "timezone": "UTC"
     }
     r = requests.get(url, params=params, timeout=60)
@@ -126,7 +130,7 @@ def fetch_open_meteo(lat, lon, start_date, end_date, tz):
     data = r.json()
     times = data.get("hourly", {}).get("time", [])
     ghi   = data.get("hourly", {}).get("shortwave_radiation", [])
-    dni   = data.get("hourly", {}).get("direct_radiation", [])
+    dni = data.get("hourly", {}).get("direct_normal_irradiance", [])
     dhi   = data.get("hourly", {}).get("diffuse_radiation", [])
 
     df = pd.DataFrame({
@@ -153,7 +157,7 @@ def fetch_nsrdb_psm3(lat, lon, start_date, end_date, email, api_key):
         "names": f"{start_year}-{end_year}",
         "interval": "60",
         "utc": "true",
-        "full_name": "Rodney",
+        "full_name": "Research User",
         "attributes": "ghi,dhi,dni,air_temperature,wind_speed,solar_zenith_angle",
         "leap_day": "false",
     }
