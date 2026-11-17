@@ -3,7 +3,7 @@ message: "If you use this software, please cite it using the metadata below."
 title: "SMI01-PVDG-Thesis-Code"
 type: software
 authors:
-  - family-names: "Domínguez"
+  - family-names: "Domínguez E."
     given-names: "Carlos A."
 version: 1.0.0
 date-released: 2026-11-17
