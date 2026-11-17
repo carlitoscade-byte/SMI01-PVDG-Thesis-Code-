@@ -86,21 +86,15 @@ donde:
 - \(P_{inst}\) es la capacidad fotovoltaica nominal instalada;
 - \(Y_{esp}\) es el rendimiento específico anual.
 
-El rendimiento específico ya representa el desempeño global esperado del sistema. Por este motivo, el Performance Ratio (PR) **no se multiplica nuevamente** en la estimación anual.
-
-## 5. Nota sobre el parámetro Performance Ratio del script
-
-El archivo `pv_capacity_by_neighborhood2.py` conserva un parámetro denominado `performance_ratio` con un valor por defecto de `0.22`.
-
-Este parámetro forma parte de la configuración histórica del script, pero **no interviene en el cálculo anual utilizado para los resultados de la tesis**, debido a que la energía anual se obtiene directamente mediante:
+El rendimiento específico anual adoptado ya representa el desempeño global esperado del sistema fotovoltaico. En consecuencia, la estimación anual se realiza directamente mediante:
 
 \[
 E_{FV}=P_{inst}\times Y_{esp}
 \]
 
-Por tanto, no debe interpretarse el valor `0.22` como el PR efectivo utilizado para calcular los 11,97 GWh/año reportados en la tesis.
+sin aplicar adicionalmente un Performance Ratio (PR), evitando así una doble contabilización de pérdidas.
 
-## 6. Resultados principales del análisis geoespacial
+## 5. Resultados principales del análisis geoespacial
 
 El procesamiento geoespacial permitió obtener los siguientes resultados para el escenario de máxima penetración:
 
@@ -115,7 +109,7 @@ El procesamiento geoespacial permitió obtener los siguientes resultados para el
 
 La potencia aproximada de **6,30 MW** utilizada en los perfiles horarios corresponde al máximo valor de generación fotovoltaica estimado durante la simulación y no a la potencia nominal instalada.
 
-## 7. Parámetros del procesamiento de irradiancia solar
+## 6. Parámetros del procesamiento de irradiancia solar
 
 El script `solar_irradiance_region.py` utiliza la siguiente configuración de referencia:
 
@@ -132,7 +126,7 @@ El script `solar_irradiance_region.py` utiliza la siguiente configuración de re
 
 El script admite además NSRDB y PVGIS como fuentes alternativas. Sin embargo, para los resultados principales presentados en la tesis se utilizó **Open-Meteo** como fuente de las series históricas de irradiancia.
 
-## 8. Variables solares procesadas
+## 7. Variables solares procesadas
 
 Las principales variables procesadas son:
 
@@ -151,7 +145,7 @@ A partir de estas variables se generan:
 - climatologías mensuales;
 - proyecciones hasta el año 2030.
 
-## 9. Clasificación estacional
+## 8. Clasificación estacional
 
 Para Paraguay, localizado en el hemisferio sur, se utiliza la siguiente agrupación:
 
@@ -162,7 +156,7 @@ Para Paraguay, localizado en el hemisferio sur, se utiliza la siguiente agrupaci
 | Invierno | junio, julio y agosto |
 | Primavera | septiembre, octubre y noviembre |
 
-## 10. Observaciones de reproducibilidad
+## 9. Observaciones de reproducibilidad
 
 Los parámetros incluidos en este documento corresponden a los valores utilizados o configurados en los algoritmos asociados a la tesis.
 
