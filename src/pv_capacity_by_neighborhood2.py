@@ -248,33 +248,58 @@ def north_allowed_angles(lat_deg: float, month: Optional[int], season: str) -> L
         return cool if south else base
     return base  # annual/spring/summer
 
-# ------------ Popup (opcional) ------------
-def popup_get_params(default_wp: float, default_pr: float):
+# ----------- Popup (opcional) ------------
+def popup_get_params(default_wp: float):
     try:
         import tkinter as tk
         from tkinter import ttk, messagebox
     except Exception:
-        return None, None
-    result = {"wp": None, "pr": None}
-    root = tk.Tk(); root.title("Parámetros FV"); root.geometry("320x160"); root.resizable(False, False)
-    frm = ttk.Frame(root, padding=12); frm.pack(fill="both", expand=True)
-    ttk.Label(frm, text="Potencia por panel (kWp):").grid(row=0, column=0, sticky="w", pady=4)
-    e_wp = ttk.Entry(frm); e_wp.grid(row=0, column=1, sticky="ew", pady=4); e_wp.insert(0, f"{default_wp:.2f}")
-    ttk.Label(frm, text="Rendimiento PR (0–1):").grid(row=1, column=0, sticky="w", pady=4)
-    e_pr = ttk.Entry(frm); e_pr.grid(row=1, column=1, sticky="ew", pady=4); e_pr.insert(0, f"{default_pr:.2f}")
+        return None
+
+    result = {"wp": None}
+
+    root = tk.Tk()
+    root.title("Parámetros FV")
+    root.geometry("320x110")
+    root.resizable(False, False)
+
+    frm = ttk.Frame(root, padding=12)
+    frm.pack(fill="both", expand=True)
+
+    ttk.Label(
+        frm,
+        text="Potencia por panel (kWp):"
+    ).grid(row=0, column=0, sticky="w", pady=4)
+
+    e_wp = ttk.Entry(frm)
+    e_wp.grid(row=0, column=1, sticky="ew", pady=4)
+    e_wp.insert(0, f"{default_wp:.2f}")
+
     frm.columnconfigure(1, weight=1)
+
     def on_ok():
         try:
-            wp=float(e_wp.get().replace(",", ".")); pr=float(e_pr.get().replace(",", "."))
-            if wp<=0 or not (0 < pr <= 1.0): raise ValueError
-            result["wp"]=wp; result["pr"]=pr; root.destroy()
-        except Exception:
-            messagebox.showerror("Error","Valores inválidos. Ej.: 0.55 kWp y 0.85 PR")
-    def on_cancel(): root.destroy()
-    btns = ttk.Frame(frm); btns.grid(row=2, column=0, columnspan=2, pady=10)
-    ttk.Button(btns, text="Aceptar", command=on_ok).pack(side="left", padx=6)
-    ttk.Button(btns, text="Cancelar", command=on_cancel).pack(side="left", padx=6)
-    root.mainloop(); return result["wp"], result["pr"]
+            wp = float(e_wp.get().replace(",", "."))
+            result["wp"] = wp
+            root.destroy()
+        except ValueError:
+            messagebox.showerror(
+                "Error",
+                "Ingrese un valor numérico válido para la potencia del panel."
+            )
+
+    def on_cancel():
+        root.destroy()
+
+    btns = ttk.Frame(frm)
+    btns.grid(row=1, column=0, columnspan=2, pady=(10, 0))
+
+    ttk.Button(btns, text="Aceptar", command=on_ok).pack(side="left", padx=5)
+    ttk.Button(btns, text="Cancelar", command=on_cancel).pack(side="left", padx=5)
+
+    root.mainloop()
+
+    return result["wp"]
 
 # ------------ Export ------------
 def write_csv_semicolon(path: Path, rows: List[Dict[str,Any]]):
@@ -307,7 +332,7 @@ def write_txt_report(path: Path, args, rows: List[Dict[str,Any]], params_json_pa
     lines.append(f"Tilt: [{args.tilt_min_deg}–{args.tilt_max_deg}]° (paso {args.tilt_step_deg}°) | Elevación mínima sombra: {args.shade_elev_deg}°")
     lines.append(f"Setback: {args.setback_m} m | Sweep base: {args.sweep_deg}°")
     lines.append(f"North-only base: {'Sí' if args.north_only else 'No'} | Temporada: {args.season} | Mes: {args.month}")
-    lines.append(f"Potencia por panel: {args.module_wp} kWp | PR: {args.performance_ratio}")
+    lines.append(f"Potencia por panel: {args.module_wp} kWp")
     lines.append(f"Specific yield: {args.specific_yield_kwhkwp} kWh/kWp·año")
     lines.append("")
     lines.append(f"Edificios procesados: {n_bld}")
@@ -417,7 +442,6 @@ def main():
 
     # Potencia / energía
     ap.add_argument("--module-wp", type=float, default=0.41, help="Potencia por panel (kWp)")
-    ap.add_argument("--performance-ratio", type=float, default=0.22, help="Rendimiento del sistema (0–1).")
     ap.add_argument("--specific-yield-kwhkwp", type=float, default=1650.0, help="Producción específica anual (kWh/kWp·año).")
 
     # Sombras y orientación
@@ -450,7 +474,7 @@ def main():
     ap.add_argument("--fast", action="store_true", help="Modo rápido: sin sombras y paso mayor")
 
     # Interactivo
-    ap.add_argument("--interactive", action="store_true", help="Popup para Wp y PR")
+    ap.add_argument("--interactive", action="store_true", help="Popup para potencia nominal del módulo")
 
     args = ap.parse_args()
 
@@ -473,9 +497,9 @@ def main():
 
     # Popup
     if args.interactive:
-        wp, pr = popup_get_params(args.module_wp, args.performance_ratio)
-        if wp is not None: args.module_wp = float(wp)
-        if pr is not None: args.performance_ratio = float(pr)
+    wp = popup_get_params(args.module_wp)
+    if wp is not None:
+        args.module_wp = float(wp)
 
     print(f"[INFO] Carpeta de salida (script): {out_dir}")
     print(f"[INFO] Barrio: {args.barrio} | Fuente: {args.source}")
