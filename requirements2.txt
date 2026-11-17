@@ -1,7 +1,0 @@
-requests
-shapely
-pyproj
-numpy
-pandas
-matplotlib
-pvlib
