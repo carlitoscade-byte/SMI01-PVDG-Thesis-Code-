@@ -97,7 +97,7 @@ La versión destinada a respaldar la tesis será publicada como:
 
 **v1.0.0 – Thesis version**
 
-Esta versión será posteriormente archivada en un repositorio de preservación científica con DOI permanente.
+Esta versión fue publicada y archivada en Zenodo con DOI permanente.
 
 ## Licencia
 
