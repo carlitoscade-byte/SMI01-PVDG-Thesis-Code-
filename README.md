@@ -101,8 +101,9 @@ Esta versión será posteriormente archivada en un repositorio de preservación 
 
 ## Licencia
 
-La licencia del código será especificada antes de la publicación definitiva de la versión v1.0.0.
+Este software se distribuye bajo la Licencia MIT. Consulte el archivo LICENSE para obtener más detalles.
 
 ## Citación
 
-La forma definitiva de citación será incorporada una vez que la versión v1.0.0 sea archivada y disponga de un DOI permanente.
+Este software es archivado en Zenodo:
+DOI: 10.5281/zenodo.24341850
