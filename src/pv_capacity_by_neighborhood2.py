@@ -496,10 +496,10 @@ def main():
         args.sweep_deg = max(args.sweep_deg, 15)
 
     # Popup
-    if args.interactive:
-    wp = popup_get_params(args.module_wp)
-    if wp is not None:
-        args.module_wp = float(wp)
+   if args.interactive:
+       wp = popup_get_params(args.module_wp)
+       if wp is not None:
+           args.module_wp = float(wp)
 
     print(f"[INFO] Carpeta de salida (script): {out_dir}")
     print(f"[INFO] Barrio: {args.barrio} | Fuente: {args.source}")
